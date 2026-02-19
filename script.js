@@ -273,7 +273,7 @@ function sendWhatsAppNotification(data) {
         `Email: ${data.email}\n` +
         `Message: ${data.message || 'N/A'}`;
     
-    const whatsappUrl = `https://wa.me/254123456789?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/254729999661?text=${encodeURIComponent(message)}`;
     
     // Open WhatsApp in a new tab after a short delay
     setTimeout(() => {
