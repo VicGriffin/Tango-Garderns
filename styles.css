@@ -244,42 +244,45 @@ h6 {
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+              url('../images/#tangogardens #evergreen.jpg') center/cover;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: var(--white);
   position: relative;
+  overflow: hidden;
 }
 
-.hero-overlay {
+.hero::before {
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   background: linear-gradient(
-    135deg,
-    rgba(45, 80, 22, 0.7),
-    rgba(74, 124, 40, 0.7)
+      135deg,
+      rgba(45, 80, 22, 0.7) 0%,
+      rgba(74, 124, 40, 0.5) 50%,
+      rgba(143, 188, 143, 0.3) 100%
   );
+  z-index: 1;
 }
 
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 800px;
   padding: 0 20px;
+  animation: fadeInUp 1s ease;
 }
 
 .hero-title {
   font-size: clamp(2.5rem, 5vw, 4rem);
   margin-bottom: 20px;
-  animation: fadeInUp 1s ease;
-  background: linear-gradient(135deg, var(--white), rgba(255, 255, 255, 0.9));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   font-weight: 800;
   letter-spacing: -1px;
 }
@@ -288,9 +291,8 @@ h6 {
   font-size: clamp(1.1rem, 2vw, 1.4rem);
   margin-bottom: 40px;
   font-weight: 300;
-  animation: fadeInUp 1s ease 0.2s both;
-  color: rgba(255, 255, 255, 0.95);
-  letter-spacing: 0.5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  line-height: 1.6;
 }
 
 .hero-buttons {
@@ -307,11 +309,13 @@ h6 {
   left: 50%;
   transform: translateX(-50%);
   animation: bounce 2s infinite;
+  z-index: 2;
 }
 
 .hero-scroll i {
   font-size: 24px;
   color: var(--white);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Highlights Section */
@@ -593,6 +597,23 @@ h6 {
   left: 0;
   color: var(--primary-green);
   font-weight: bold;
+}
+
+.service-image {
+  margin: 20px 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.service-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-image img {
+  transform: scale(1.05);
 }
 
 /* Gallery Section */
