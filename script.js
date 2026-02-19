@@ -440,16 +440,125 @@ const debouncedScrollHandler = debounce(() => {
 
 window.addEventListener('scroll', debouncedScrollHandler);
 
-// Initialize page
+// Initialize page with modern loading animation
 document.addEventListener('DOMContentLoaded', () => {
     // Add loading animation
     document.body.style.opacity = '0';
     setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s ease';
+        document.body.style.transition = 'opacity 0.6s cubic-bezier(0.23, 1, 0.320, 1)';
         document.body.style.opacity = '1';
     }, 100);
+    
+    // Add staggered animation to elements
+    const elements = document.querySelectorAll('.highlight-card, .service-card, .menu-item, .gallery-item');
+    elements.forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = `all 0.6s cubic-bezier(0.23, 1, 0.320, 1) ${index * 0.05}s`;
+        
+        setTimeout(() => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        }, 100 + index * 50);
+    });
 });
+
+// Add mouse move effect to cards
+document.addEventListener('mousemove', (e) => {
+    const cards = document.querySelectorAll('.service-card, .highlight-card');
+    cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        // Only apply on hover
+        if (card.matches(':hover')) {
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+    });
+});
+
+// Smooth scroll behavior enhancement
+const scrollBehaviorObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+});
+
+document.querySelectorAll('section').forEach(section => {
+    section.style.opacity = '1';
+    section.style.transform = 'translateY(0)';
+});
+
+// Add interactive color effects on hover
+const buttons = document.querySelectorAll('.btn');
+buttons.forEach(btn => {
+    btn.addEventListener('mouseenter', function() {
+        this.style.letterSpacing = '0.5px';
+    });
+    btn.addEventListener('mouseleave', function() {
+        this.style.letterSpacing = '0';
+    });
+});
+
+// Add ripple effect to buttons
+buttons.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    });
+});
+
+// Add CSS for ripple effect
+const rippleStyle = document.createElement('style');
+rippleStyle.textContent = `
+    .btn {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: rippleAnimation 0.6s ease-out;
+        pointer-events: none;
+    }
+    
+    @keyframes rippleAnimation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(rippleStyle);
 
 // Console branding
 console.log('%c🌿 Tango Gardens Website', 'color: #2d5016; font-size: 20px; font-weight: bold;');
-console.log('%cDesigned with ❤️ in Kenya', 'color: #8fbc8f; font-size: 14px;');
+console.log('%cModernized with smooth animations & vibrant design', 'color: #20c997; font-size: 14px;');
