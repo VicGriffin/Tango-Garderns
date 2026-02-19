@@ -237,15 +237,14 @@ h6 {
 
 /* Hero Section */
 .hero {
-  height: 100vh;
-  background:
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url("../images/%23tangogardens%20%23evergreen.jpg") center/cover;
+  min-height: 100vh;
+  padding-top: 70px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                    url('images/%23tangogardens%20%23evergreen.jpg');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-              url('../images/#tangogardens #evergreen.jpg') center/cover;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
