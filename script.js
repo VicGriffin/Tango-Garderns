@@ -382,23 +382,49 @@ if (phoneInput) {
     });
 }
 
-// Lazy loading for images
+// Enhanced lazy loading for images with error handling
 if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const img = entry.target;
-                img.src = img.dataset.src || img.src;
-                img.classList.remove('lazy');
+                const src = img.dataset.src || img.src;
+                
+                // Create a new image to preload
+                const tempImg = new Image();
+                tempImg.onload = () => {
+                    img.src = src;
+                    img.classList.add('loaded');
+                    img.classList.remove('lazy');
+                };
+                tempImg.onerror = () => {
+                    img.classList.add('error-image');
+                };
+                
+                tempImg.src = src;
                 imageObserver.unobserve(img);
             }
         });
+    }, {
+        rootMargin: '50px'
     });
     
     document.querySelectorAll('img[loading="lazy"]').forEach(img => {
         imageObserver.observe(img);
     });
 }
+
+// Ensure all images load properly on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const allImages = document.querySelectorAll('img');
+    allImages.forEach((img, index) => {
+        // Add error fallback
+        img.onerror = function() {
+            this.style.backgroundColor = '#e0e0e0';
+            this.style.minHeight = '200px';
+        };
+    });
+});
 
 // Add CSS animation keyframes dynamically
 const style = document.createElement('style');
